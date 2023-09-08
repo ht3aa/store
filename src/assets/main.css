@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+body {
+  font-family: 'Almarai';
+}
+
+.v-field__field {
+  direction: rtl;
+}
+
+.v-messages__message {
+  direction: rtl;
+}
+
+.v-alert__content,
+.v-alert {
+  direction: rtl;
+}
+
+.v-banner {
+  direction: rtl;
+}
+
+.v-form {
+  direction: rtl;
+}
+
+button {
+  /* font-famly: 'Almarai'; */
+}
