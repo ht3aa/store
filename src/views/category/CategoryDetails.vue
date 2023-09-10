@@ -4,7 +4,8 @@ import { onMounted, ref } from 'vue'
 import { categoryReq, cartReq } from '@/config/axios'
 import { CategoryValidator } from '@/utils/category'
 import { useAlertStore } from '@/stores/alert'
-import { reqIsSuccessful, handelError } from '@/utils/helpers'
+import { reqIsSuccessful, startLoadingImg, doneLoadingImg, handelError } from '@/utils/helpers'
+import { lazyImg } from '@/utils/global'
 
 const route = useRoute()
 const router = useRouter()
@@ -21,12 +22,10 @@ onMounted(async () => {
       loading.value = false
       category.value = data.msg
       products.value = category.value.products
-
     }
   } catch (error) {
     handelError(error)
   }
-
 })
 
 const addToCart = async (productId) => {
@@ -37,16 +36,19 @@ const addToCart = async (productId) => {
   }
 
   try {
-    const { data } = await cartReq.post(`/${productId}`, {}, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
+    const { data } = await cartReq.post(
+      `/${productId}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
       }
-    })
+    )
     reqIsSuccessful(data)
   } catch (error) {
     handelError(error)
   }
-
 }
 </script>
 
@@ -57,28 +59,39 @@ const addToCart = async (productId) => {
   </div>
   <v-card v-else class="mx-auto" max-width="80%">
     <v-container fluid>
-      <v-row style="direction: rtl">
+      <v-row class="direction">
         <v-col cols="12" md="4" v-for="product in products" :key="product.id">
-          <v-card loading class="mx-auto text-right">
-            <v-img class="align-end text-white" height="200" :src="product.photos.url[0]" cover>
+          <v-card class="mx-auto text-right">
+            <v-img
+              class="align-end text-white"
+              @loadstart="startLoadingImg(product.id + 'img')"
+              @load="doneLoadingImg(product.id + 'img')"
+              :id="product.id + 'img'"
+              :lazy-src="lazyImg"
+              :src="product.photos.url[0]"
+              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+              height="200px"
+              cover
+            >
             </v-img>
-
             <v-card-title>{{ product.name }}</v-card-title>
-            <v-card-subtitle class="pt-2">
-              {{ product.price }} دينار عراقي
-            </v-card-subtitle>
+            <v-card-subtitle class="pt-2"> {{ product.price }} دينار عراقي </v-card-subtitle>
 
             <v-card-actions class="pt-5">
               <v-btn color="blue" :to="{ name: 'productDetails', params: { id: product.id } }">
                 تفاصيل
               </v-btn>
 
-              <v-btn @click="addToCart(product.id)" append-icon="mdi-cart-arrow-down" variant="outlined" color="pink">
+              <v-btn
+                @click="addToCart(product.id)"
+                append-icon="mdi-cart-arrow-down"
+                variant="outlined"
+                color="pink"
+              >
                 أضف إلى السلة
               </v-btn>
             </v-card-actions>
           </v-card>
-
         </v-col>
       </v-row>
     </v-container>
@@ -112,5 +125,3 @@ const addToCart = async (productId) => {
   }
 }
 </style>
-
-

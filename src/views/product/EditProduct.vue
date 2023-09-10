@@ -19,7 +19,6 @@ const productPrice = ref(null)
 
 onMounted(async () => {
   try {
-
     const { data } = await productReq.get(`/${route.params.id}`)
     if (reqIsSuccessful(data, false)) {
       productName.value = data.msg.name
@@ -30,7 +29,6 @@ onMounted(async () => {
   } catch (error) {
     handelError(error)
   }
-
 })
 
 const handelSubmit = async (event) => {
@@ -49,7 +47,6 @@ const handelSubmit = async (event) => {
     formData.append('price', productPrice.value)
 
     try {
-
       const { data } = await productReq.patch(`/${route.params.id}`, formData)
       if (reqIsSuccessful(data)) {
         toggleAlert(true, data.status, data.msg)
@@ -68,36 +65,54 @@ const handelSubmit = async (event) => {
     <v-form @submit.prevent="handelSubmit">
       <v-row>
         <v-col cols="12" md="4">
-          <v-text-field :rules="ProductValidator.productNameRules" v-model="productName" label="ألأسم"></v-text-field>
+          <v-text-field
+            :rules="ProductValidator.productNameRules"
+            v-model="productName"
+            label="ألأسم"
+          ></v-text-field>
         </v-col>
         <v-col cols="12" md="2">
-          <v-text-field type="number" min="0" v-model="productPrice" :rules="ProductValidator.productPriceRules"
-            label="السعر"></v-text-field>
+          <v-text-field
+            type="number"
+            min="0"
+            v-model="productPrice"
+            :rules="ProductValidator.productPriceRules"
+            label="السعر"
+          ></v-text-field>
         </v-col>
         <v-col cols="12" md="6">
-          <v-textarea :rules="ProductValidator.productDesriptionRules" v-model="productDesription"
-            label="الوصف"></v-textarea>
+          <v-textarea
+            :rules="ProductValidator.productDesriptionRules"
+            v-model="productDesription"
+            label="الوصف"
+          ></v-textarea>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" md="4">
           <v-carousel v-if="oldProductPhotos" cycle height="300">
             <v-carousel-item :src="oldProductPhotos[0]" cover></v-carousel-item>
-            <v-carousel-item v-for="(photo, i) in oldProductPhotos.slice(1)" :src="photo" :key="i"
-              cover></v-carousel-item>
+            <v-carousel-item
+              v-for="(photo, i) in oldProductPhotos.slice(1)"
+              :src="photo"
+              :key="i"
+              cover
+            ></v-carousel-item>
           </v-carousel>
-          <v-file-input multiple accept="image/*" label="الصور" v-model="productPhotos"></v-file-input>
+          <v-file-input
+            multiple
+            accept="image/*"
+            label="الصور"
+            v-model="productPhotos"
+          ></v-file-input>
         </v-col>
       </v-row>
-      <div style="text-align: center" class="mb-5">
-        <v-btn :loading="loading" type="submit" width="300" color="blue" class="mt-10 mx-auto rtl">تعديل</v-btn>
+      <div class="mb-5 text-center">
+        <v-btn :loading="loading" type="submit" width="300" color="blue" class="mt-10 mx-auto direction"
+          >تعديل</v-btn
+        >
       </div>
     </v-form>
   </v-sheet>
 </template>
 
-<style scoped>
-.rtl {
-  direction: rtl;
-}
-</style>

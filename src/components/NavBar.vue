@@ -32,8 +32,8 @@ const navBarGroups = [
         id: 1,
         to: { name: 'usersView' },
         title: 'الكل',
-        value: 'allUser',
-      },
+        value: 'allUser'
+      }
     ]
   },
   {
@@ -47,14 +47,14 @@ const navBarGroups = [
         id: 1,
         to: { name: 'categoryView' },
         title: 'الكل',
-        value: 'allCategories',
+        value: 'allCategories'
       },
       {
         id: 2,
         to: { name: 'addCategory' },
         title: 'اضافة',
-        value: 'addCategory',
-      },
+        value: 'addCategory'
+      }
     ]
   },
   {
@@ -68,17 +68,16 @@ const navBarGroups = [
         id: 1,
         to: { name: 'register' },
         title: 'تسجيل مستخدم ',
-        value: 'register',
+        value: 'register'
       },
       {
         id: 2,
         to: { name: 'login' },
         title: 'تسجيل الدخول',
-        value: 'login',
-      },
+        value: 'login'
+      }
     ]
-  },
-
+  }
 ]
 </script>
 

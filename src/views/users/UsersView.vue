@@ -29,8 +29,10 @@ const filter = () => {
     filterdUsers.value = users.value
   }
   filterdUsers.value = users.value.filter((user) => {
-    return user.email.toLowerCase().includes(search.value.trim().toLowerCase())
-      || user.username.toLowerCase().includes(search.value.trim().toLowerCase())
+    return (
+      user.email.toLowerCase().includes(search.value.trim().toLowerCase()) ||
+      user.username.toLowerCase().includes(search.value.trim().toLowerCase())
+    )
   })
 }
 
@@ -53,8 +55,14 @@ watch(search, filter)
     <tbody>
       <tr v-for="user in filterdUsers" :key="user.id">
         <td class="text-right">
-          <v-btn variant="outlined" append-icon="mdi-delete" :to="{ name: 'deleteUser', params: { id: user.id } }"
-            class="ml-2" color="error">حذف</v-btn>
+          <v-btn
+            variant="outlined"
+            append-icon="mdi-delete"
+            :to="{ name: 'deleteUser', params: { id: user.id } }"
+            class="ml-2"
+            color="error"
+            >حذف</v-btn
+          >
         </td>
         <td class="text-right">{{ user.email }}</td>
         <td class="text-right">
@@ -67,8 +75,12 @@ watch(search, filter)
     <tfoot>
       <tr v-if="users.length === 0">
         <td colspan="4">
-          <BannerComponent banner-btn-text="أضافة" banner-icon="mdi-account-group" banner-color="lime"
-            banner-text="لا يوجد مستخدمين الى الأن" />
+          <BannerComponent
+            banner-btn-text="أضافة"
+            banner-icon="mdi-account-group"
+            banner-color="lime"
+            banner-text="لا يوجد مستخدمين الى الأن"
+          />
         </td>
       </tr>
     </tfoot>

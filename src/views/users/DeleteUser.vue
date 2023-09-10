@@ -15,9 +15,8 @@ const email = ref(null)
 
 onMounted(async () => {
   try {
-
     const { data } = await userReq.get(`/${route.params.id}`)
-    console.log(data);
+    console.log(data)
     if (reqIsSuccessful(data, false)) {
       username.value = data.msg.username
       email.value = data.msg.email
@@ -27,7 +26,6 @@ onMounted(async () => {
   } catch (error) {
     handelError(error)
   }
-
 })
 const handelSubmit = async () => {
   loading.value = true
@@ -52,22 +50,32 @@ const handelSubmit = async () => {
     <v-form @submit.prevent="handelSubmit">
       <v-row>
         <v-col cols="12" md="6">
-          <v-text-field v-model="username" label="أسم المستعار"></v-text-field>
+          <v-text-field
+            class="pointerEvents"
+            v-model="username"
+            label="أسم المستعار"
+          ></v-text-field>
         </v-col>
         <v-col cols="12" md="6">
-          <v-text-field type="email" v-model="email" label="البريد الالكتروني"></v-text-field>
+          <v-text-field
+            class="pointerEvents"
+            type="email"
+            v-model="email"
+            label="البريد الالكتروني"
+          ></v-text-field>
         </v-col>
       </v-row>
 
-      <div style="text-align: center">
-        <v-btn :loading="loading" type="submit" width="300" color="error" class="mt-10 mx-auto rtl">حذف</v-btn>
+      <div class="text-center">
+        <v-btn
+          :loading="loading"
+          type="submit"
+          width="300"
+          color="error"
+          class="mt-10 mx-auto direction"
+          >حذف</v-btn
+        >
       </div>
     </v-form>
   </v-sheet>
 </template>
-
-<style scoped>
-.rtl {
-  direction: rtl;
-}
-</style>

@@ -23,14 +23,12 @@ onMounted(async () => {
   } catch (error) {
     handelError(error)
   }
-
 })
 
 const handelSubmit = async () => {
   loading.value = true
 
   try {
-
     const { data } = await categoryReq.delete(`/${route.params.id}`)
     if (reqIsSuccessful(data)) {
       loading.value = false
@@ -50,7 +48,11 @@ const handelSubmit = async () => {
     <v-form @submit.prevent="handelSubmit">
       <v-row>
         <v-col cols="12" md="4">
-          <v-text-field style="pointer-events: none" v-model="categoryName" label="ألأسم"></v-text-field>
+          <v-text-field
+            class="pointerEvents"
+            v-model="categoryName"
+            label="ألأسم"
+          ></v-text-field>
         </v-col>
       </v-row>
       <v-row>
@@ -61,15 +63,12 @@ const handelSubmit = async () => {
         </v-col>
       </v-row>
 
-      <div style="text-align: center" class="mb-5">
-        <v-btn :loading="loading" type="submit" width="300" color="error" class="mt-10 mx-auto rtl">حذف</v-btn>
+      <div class="text-center mb-5">
+        <v-btn :loading="loading" type="submit" width="300" color="error" class="mt-10 mx-auto direction"
+          >حذف</v-btn
+        >
       </div>
     </v-form>
   </v-sheet>
 </template>
 
-<style scoped>
-.rtl {
-  direction: rtl;
-}
-</style>

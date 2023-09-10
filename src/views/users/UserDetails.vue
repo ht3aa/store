@@ -10,7 +10,7 @@ const router = useRouter()
 const store = useAlertStore()
 const { toggleAlert } = store
 const loading = ref(true)
-const user = ref(null);
+const user = ref(null)
 
 onMounted(async () => {
   try {
@@ -22,9 +22,7 @@ onMounted(async () => {
   } catch (error) {
     handelError(error)
   }
-
 })
-
 
 const handelSubmit = async () => {
   const accessToken = localStorage.getItem('accessToken')
@@ -34,11 +32,15 @@ const handelSubmit = async () => {
   }
 
   const data = await tryCatch(async () => {
-    const { data } = await userReq.post(`/cart/${route.params.id}`, {}, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
+    const { data } = await userReq.post(
+      `/cart/${route.params.id}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
       }
-    })
+    )
     return data
   })
 
@@ -49,7 +51,6 @@ const handelSubmit = async () => {
     toggleAlert(true, data.status, data.msg)
   }
 }
-
 </script>
 
 <template>
@@ -72,11 +73,12 @@ const handelSubmit = async () => {
           <td class="text-right">{{ user.username }}</td>
         </tr>
       </tbody>
-      <tfoot>
-      </tfoot>
+      <tfoot></tfoot>
     </v-table>
     <v-table class="my-4">
-      <caption class="bg-yellow">السلة</caption>
+      <caption class="bg-yellow">
+        السلة
+      </caption>
       <thead>
         <tr>
           <th class="text-right bg-blue">الكمية</th>
@@ -91,11 +93,12 @@ const handelSubmit = async () => {
           <td class="text-right">{{ product.name }}</td>
         </tr>
       </tbody>
-      <tfoot>
-      </tfoot>
+      <tfoot></tfoot>
     </v-table>
     <v-table>
-      <caption class="bg-yellow">تم الشراء</caption>
+      <caption class="bg-yellow">
+        تم الشراء
+      </caption>
       <thead>
         <tr>
           <th class="text-right bg-blue">الكمية</th>
@@ -110,8 +113,7 @@ const handelSubmit = async () => {
           <td class="text-right">{{ product.name }}</td>
         </tr>
       </tbody>
-      <tfoot>
-      </tfoot>
+      <tfoot></tfoot>
     </v-table>
   </div>
 </template>

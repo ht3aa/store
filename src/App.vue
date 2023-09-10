@@ -32,4 +32,3 @@ const { alert, alertType, alertMsg } = storeToRefs(store)
   </v-app>
 </template>
 
-<style scoped></style>

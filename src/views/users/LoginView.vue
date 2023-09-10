@@ -10,17 +10,14 @@ const loading = ref(false)
 const username = ref(null)
 const password = ref(null)
 
-
 const handelSubmit = async (event) => {
-
   const { valid } = await event
   if (valid) {
-    
     loading.value = true
 
     const values = {
       username: username.value,
-      password: password.value,
+      password: password.value
     }
     try {
       const { data } = await userReq.post('/login', values)
@@ -42,22 +39,26 @@ const handelSubmit = async (event) => {
     <v-form @submit.prevent="handelSubmit">
       <v-row>
         <v-col cols="12" md="4">
-          <v-text-field :rules="UserValidator.usernameRules" v-model="username" label="الأسم الرباعي"></v-text-field>
+          <v-text-field
+            :rules="UserValidator.usernameRules"
+            v-model="username"
+            label="الأسم الرباعي"
+          ></v-text-field>
         </v-col>
         <v-col cols="12" md="4">
-          <v-text-field type="password" :rules="UserValidator.passwordRules" v-model="password"
-            label="كلمة المرور"></v-text-field>
+          <v-text-field
+            type="password"
+            :rules="UserValidator.passwordRules"
+            v-model="password"
+            label="كلمة المرور"
+          ></v-text-field>
         </v-col>
       </v-row>
-      <div style="text-align: center">
-        <v-btn :loading="loading" type="submit" width="300" color="pink" class="mt-10 mx-auto rtl">تسجيل الدخول</v-btn>
+      <div class="text-center">
+        <v-btn :loading="loading" type="submit" width="300" color="pink" class="mt-10 mx-auto direction"
+          >تسجيل الدخول</v-btn
+        >
       </div>
     </v-form>
   </v-sheet>
 </template>
-
-<style scoped>
-.rtl {
-  direction: rtl;
-}
-</style>

@@ -4,27 +4,41 @@ body {
   font-family: 'Almarai';
 }
 
-.v-field__field {
-  direction: rtl;
-}
-
-.v-messages__message {
-  direction: rtl;
-}
-
+.v-field__field,
+.v-messages__message,
 .v-alert__content,
-.v-alert {
+.v-alert,
+.v-banner,
+.v-form
+{
   direction: rtl;
 }
 
-.v-banner {
+.direction {
   direction: rtl;
 }
 
-.v-form {
-  direction: rtl;
+.decoration {
+  text-decoration: none;
 }
 
-button {
-  /* font-famly: 'Almarai'; */
+.pointerEvents {
+  pointer-events: none;
+}
+
+
+.loadingImg {
+  animation: loadingImg 1.5s infinite;
+}
+
+@keyframes loadingImg {
+  0% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.8;
+  }
 }

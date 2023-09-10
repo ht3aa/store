@@ -1,7 +1,14 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue'
 import { categoryReq } from '@/config/axios'
-import { arabicSortBy, handelError, reqIsSuccessful } from '@/utils/helpers'
+import {
+  arabicSortBy,
+  startLoadingImg,
+  doneLoadingImg,
+  handelError,
+  reqIsSuccessful
+} from '@/utils/helpers'
+import { lazyImg } from '@/utils/global'
 
 const categories = ref([])
 const search = ref(null)
@@ -22,7 +29,7 @@ onMounted(async () => {
 })
 
 const filter = () => {
-  if(!search.value) {
+  if (!search.value) {
     filterdCategories.value = categories.value
   }
   filterdCategories.value = categories.value.filter((category) => {
@@ -40,14 +47,26 @@ watch(search, filter)
   </div>
   <v-card v-else class="mx-auto my-5" max-width="80%">
     <v-text-field v-model="search" label="بحث"></v-text-field>
-    <h3 v-if="filterdCategories.length === 0" class="text-center my-5">لا توجد أقسام </h3>
+    <h3 v-if="filterdCategories.length === 0" class="text-center my-5">لا توجد أقسام</h3>
     <v-container v-else fluid>
-      <v-row style="direction: rtl">
+      <v-row class="direction">
         <v-col cols="12" md="4" v-for="category in filterdCategories" :key="category.id">
-          <router-link style="text-decoration: none" :to="{ name: 'categoryDetails', params: { id: category.id } }">
-            <v-card loading>
-              <v-img  :src="category.url" class="align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                height="200px" cover>
+          <router-link
+            class="decoration"
+            :to="{ name: 'categoryDetails', params: { id: category.id } }"
+          >
+            <v-card>
+              <v-img
+                class="align-end"
+                @loadstart="startLoadingImg(category.id + 'img')"
+                @load="doneLoadingImg(category.id + 'img')"
+                :id="category.id + 'img'"
+                :lazy-src="lazyImg"
+                :src="category.url"
+                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                height="200px"
+                cover
+              >
                 <v-card-title class="text-white text-right" v-text="category.name"></v-card-title>
               </v-img>
             </v-card>
@@ -85,4 +104,3 @@ watch(search, filter)
   }
 }
 </style>
-

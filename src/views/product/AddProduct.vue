@@ -20,14 +20,12 @@ const categories = ref([])
 const categoryName = ref(null)
 
 onMounted(async () => {
-
   try {
     const { data } = await categoryReq.post('/find')
     if (reqIsSuccessful(data, false)) {
       categories.value = data.msg.map((category) => {
         return category.name
       })
-
     }
   } catch (error) {
     handelError(error)
@@ -57,7 +55,6 @@ const handelSubmit = async (event) => {
     } catch (error) {
       handelError(error)
     }
-
   }
 }
 </script>
@@ -67,38 +64,66 @@ const handelSubmit = async (event) => {
     <v-form @submit.prevent="handelSubmit">
       <v-row>
         <v-col cols="12" md="4">
-          <v-combobox :items="categories" :rules="CategoryValidator.categoriesRules" v-model="categoryName"
-            label="ألأقسام"></v-combobox>
+          <v-combobox
+            :items="categories"
+            :rules="CategoryValidator.categoriesRules"
+            v-model="categoryName"
+            label="ألأقسام"
+          ></v-combobox>
         </v-col>
         <v-col cols="12" md="4">
-          <v-text-field :rules="ProductValidator.productNameRules" v-model="productName" label="ألأسم"></v-text-field>
+          <v-text-field
+            :rules="ProductValidator.productNameRules"
+            v-model="productName"
+            label="ألأسم"
+          ></v-text-field>
         </v-col>
         <v-col cols="12" md="2">
-          <v-text-field type="number" min="0" v-model="productPrice" :rules="ProductValidator.productPriceRules"
-            label="السعر"></v-text-field>
+          <v-text-field
+            type="number"
+            min="0"
+            v-model="productPrice"
+            :rules="ProductValidator.productPriceRules"
+            label="السعر"
+          ></v-text-field>
         </v-col>
         <v-col cols="12" md="2">
-          <v-text-field type="number" min="0" v-model="productQuantity" :rules="ProductValidator.productQuantityRules"
-            label="الكمية"></v-text-field>
+          <v-text-field
+            type="number"
+            min="0"
+            v-model="productQuantity"
+            :rules="ProductValidator.productQuantityRules"
+            label="الكمية"
+          ></v-text-field>
         </v-col>
         <v-col cols="12" md="4">
-          <v-file-input multiple accept="image/*" label="الصور" v-model="productPhotos"
-            :rules="ProductValidator.productPhotosRules"></v-file-input>
+          <v-file-input
+            multiple
+            accept="image/*"
+            label="الصور"
+            v-model="productPhotos"
+            :rules="ProductValidator.productPhotosRules"
+          ></v-file-input>
         </v-col>
         <v-col cols="12" md="6">
-          <v-textarea :rules="ProductValidator.productDesriptionRules" v-model="productDesription"
-            label="الوصف"></v-textarea>
+          <v-textarea
+            :rules="ProductValidator.productDesriptionRules"
+            v-model="productDesription"
+            label="الوصف"
+          ></v-textarea>
         </v-col>
       </v-row>
-      <div style="text-align: center">
-        <v-btn :loading="loading" type="submit" width="300" color="primary" class="mt-10 mx-auto rtl">أضافة</v-btn>
+      <div class="text-center">
+        <v-btn
+          :loading="loading"
+          type="submit"
+          width="300"
+          color="primary"
+          class="mt-10 mx-auto direction"
+          >أضافة</v-btn
+        >
       </div>
     </v-form>
   </v-sheet>
 </template>
 
-<style scoped>
-.rtl {
-  direction: rtl;
-}
-</style>

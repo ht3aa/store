@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAlertStore } from '@/stores/alert'
 import { removeVItemActiveClass } from '@/utils/solutions'
-import jwt_decode from "jwt-decode";
+import jwt_decode from 'jwt-decode'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -141,7 +141,7 @@ const router = createRouter({
       meta: {
         arabicName: 'الحقيبة'
       }
-    },
+    }
   ]
 })
 
@@ -162,12 +162,7 @@ router.beforeEach((to, from, next) => {
   ) {
     useAlertStore().toggleAlert(false)
   }
-  if (
-    from.name === 'addUsers' ||
-    from.name === 'addCategory' ||
-    from.name === 'addProduct'
-  ) {
-
+  if (from.name === 'addUsers' || from.name === 'addCategory' || from.name === 'addProduct') {
     removeVItemActiveClass(document.querySelector(`[href='${from.href}']`))
   }
   const accessToken = localStorage.getItem('accessToken')

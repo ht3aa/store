@@ -15,7 +15,6 @@ onMounted(async () => {
   try {
     const { data } = await categoryReq.post('/find')
     if (reqIsSuccessful(data, false)) {
-
       loading.value = false
       categories.value = arabicSortBy(data.msg, 'name')
       filterdCategories.value = categories.value
@@ -23,7 +22,6 @@ onMounted(async () => {
   } catch (error) {
     handelError(error)
   }
-
 })
 
 const filter = () => {
@@ -52,10 +50,22 @@ watch(search, filter)
     <tbody>
       <tr v-for="category in filterdCategories" :key="category.id">
         <td class="text-right">
-          <v-btn variant="outlined" append-icon="mdi-delete" :to="{ name: 'deleteCategory', params: { id: category.id } }"
-            class="ml-2" color="error">حذف</v-btn>
-          <v-btn variant="outlined" append-icon="mdi-pencil" :to="{ name: 'editCategory', params: { id: category.id } }"
-            color="blue" class="ml-2">تعديل</v-btn>
+          <v-btn
+            variant="outlined"
+            append-icon="mdi-delete"
+            :to="{ name: 'deleteCategory', params: { id: category.id } }"
+            class="ml-2"
+            color="error"
+            >حذف</v-btn
+          >
+          <v-btn
+            variant="outlined"
+            append-icon="mdi-pencil"
+            :to="{ name: 'editCategory', params: { id: category.id } }"
+            color="blue"
+            class="ml-2"
+            >تعديل</v-btn
+          >
         </td>
         <td class="text-right">
           <router-link :to="{ name: 'categoryDetails', params: { id: category.id } }">
@@ -67,8 +77,13 @@ watch(search, filter)
     <tfoot>
       <tr v-if="categories.length === 0">
         <td colspan="4">
-          <BannerComponent banner-btn-text="أضافة" banner-icon="mdi-shape" banner-color="yellow-darken-4"
-            banner-text="لم تقم بأضافة اي قسم أضغط على الأضافة." :banner-to="{ name: 'addCategory' }" />
+          <BannerComponent
+            banner-btn-text="أضافة"
+            banner-icon="mdi-shape"
+            banner-color="yellow-darken-4"
+            banner-text="لم تقم بأضافة اي قسم أضغط على الأضافة."
+            :banner-to="{ name: 'addCategory' }"
+          />
         </td>
       </tr>
     </tfoot>

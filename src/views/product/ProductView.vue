@@ -13,7 +13,6 @@ onMounted(async () => {
   loading.value = true
 
   try {
-
     const { data } = await productReq.post('/find', {
       withPhotoRelation: true
     })
@@ -26,7 +25,6 @@ onMounted(async () => {
   } catch (error) {
     handelError(error)
   }
-
 })
 
 const filter = () => {
@@ -34,8 +32,10 @@ const filter = () => {
     filterdProducts.value = products.value
   }
   filterdProducts.value = products.value.filter((product) => {
-    return product.name.toLowerCase().includes(search.value.trim().toLowerCase())
-      || product.price.toLowerCase().includes(search.value.trim().toLowerCase())
+    return (
+      product.name.toLowerCase().includes(search.value.trim().toLowerCase()) ||
+      product.price.toLowerCase().includes(search.value.trim().toLowerCase())
+    )
   })
 }
 watch(search, filter)
@@ -57,10 +57,22 @@ watch(search, filter)
     <tbody>
       <tr v-for="product in filterdProducts" :key="product.id">
         <td class="text-right">
-          <v-btn variant="outlined" append-icon="mdi-delete" :to="{ name: 'deleteProduct', params: { id: product.id } }"
-            class="ml-2" color="error">حذف</v-btn>
-          <v-btn variant="outlined" append-icon="mdi-pencil" :to="{ name: 'editProduct', params: { id: product.id } }"
-            color="blue" class="ml-2">تعديل</v-btn>
+          <v-btn
+            variant="outlined"
+            append-icon="mdi-delete"
+            :to="{ name: 'deleteProduct', params: { id: product.id } }"
+            class="ml-2"
+            color="error"
+            >حذف</v-btn
+          >
+          <v-btn
+            variant="outlined"
+            append-icon="mdi-pencil"
+            :to="{ name: 'editProduct', params: { id: product.id } }"
+            color="blue"
+            class="ml-2"
+            >تعديل</v-btn
+          >
         </td>
         <td class="text-right">{{ product.price }}</td>
         <td class="text-right">
@@ -73,8 +85,13 @@ watch(search, filter)
     <tfoot>
       <tr v-if="products.length === 0">
         <td colspan="4">
-          <BannerComponent banner-btn-text="أضافة" banner-icon="mdi-account-injury" banner-color="primary"
-            banner-text="لم تقم بأضافة اي منتج. أضغط على الأضافة." :banner-to="{ name: 'addProduct' }" />
+          <BannerComponent
+            banner-btn-text="أضافة"
+            banner-icon="mdi-account-injury"
+            banner-color="primary"
+            banner-text="لم تقم بأضافة اي منتج. أضغط على الأضافة."
+            :banner-to="{ name: 'addProduct' }"
+          />
         </td>
       </tr>
     </tfoot>

@@ -3,7 +3,8 @@ import { useRoute, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { cartReq, orderReq } from '@/config/axios'
 import { useAlertStore } from '@/stores/alert'
-import { reqIsSuccessful, handelError } from '@/utils/helpers'
+import { reqIsSuccessful, startLoadingImg, doneLoadingImg, handelError } from '@/utils/helpers'
+import { lazyImg } from '@/utils/global'
 import { ProductValidator } from '@/utils/product'
 
 const route = useRoute()
@@ -11,8 +12,8 @@ const router = useRouter()
 const store = useAlertStore()
 const { toggleAlert } = store
 const loading = ref(true)
-const cart = ref(null);
-const orders = ref(null);
+const cart = ref(null)
+const orders = ref(null)
 const deleteing = ref(false)
 const ordering = ref(false)
 const productQuantity = ref(null)
@@ -36,15 +37,13 @@ onMounted(async () => {
       orders.value = orderRes.msg
       console.log(cart)
     }
-
   } catch (error) {
     handelError(error)
   }
-
 })
 
 const deleteCart = async (productId) => {
-  deleteing.value = true;
+  deleteing.value = true
 
   const accessToken = localStorage.getItem('accessToken')
 
@@ -53,7 +52,6 @@ const deleteCart = async (productId) => {
   }
 
   try {
-
     const { data } = await cartReq.delete(`/${cart.value.id}/${productId}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`
@@ -62,26 +60,28 @@ const deleteCart = async (productId) => {
     if (reqIsSuccessful(data, false)) {
       cart.value = data.msg
     }
-    deleteing.value = false;
+    deleteing.value = false
   } catch (error) {
     handelError(error)
   }
-
 }
 const orderProduct = async (productId) => {
   const wantedQuantity = document.getElementById(productId).value
-  const product = cart.value.products.find(product => product.id === productId)
+  const product = cart.value.products.find((product) => product.id === productId)
 
-  if(!wantedQuantity) {
-    toggleAlert(true,'error', `من فضلك ادخل الكمية للمنتج (${product.name})`)
-    return 
-  }
-  if(+wantedQuantity > +product.quantity) {
-    
-    toggleAlert(true,'error',  `الكمية للمنتج (${product.name}) اكبر من المتاحة. (${product.quantity})`)
+  if (!wantedQuantity) {
+    toggleAlert(true, 'error', `من فضلك ادخل الكمية للمنتج (${product.name})`)
     return
   }
-  ordering.value = true;
+  if (+wantedQuantity > +product.quantity) {
+    toggleAlert(
+      true,
+      'error',
+      `الكمية للمنتج (${product.name}) اكبر من المتاحة. (${product.quantity})`
+    )
+    return
+  }
+  ordering.value = true
 
   const accessToken = localStorage.getItem('accessToken')
 
@@ -89,22 +89,24 @@ const orderProduct = async (productId) => {
     router.push({ name: 'login' })
   }
   try {
-    const { data } = await orderReq.post(`/${productId}`, {}, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
+    const { data } = await orderReq.post(
+      `/${productId}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
       }
-    })
+    )
     if (reqIsSuccessful(data, false)) {
       await deleteCart(productId)
       orders.value = data.msg
     }
-    ordering.value = false;
+    ordering.value = false
   } catch (error) {
     handelError(error)
   }
-
 }
-
 </script>
 
 <template>
@@ -113,7 +115,9 @@ const orderProduct = async (productId) => {
   </div>
   <div v-else>
     <v-table class="my-4">
-      <caption class="bg-yellow">السلة</caption>
+      <caption class="bg-yellow">
+        السلة
+      </caption>
       <thead>
         <tr>
           <th class="text-right bg-blue">الأجراءات</th>
@@ -126,26 +130,55 @@ const orderProduct = async (productId) => {
       <tbody>
         <tr v-for="product in cart.products" :key="product.id">
           <td class="text-right">
-            <v-btn :loading="deleteing" @click="deleteCart(product.id)" variant="outlined" append-icon="mdi-delete"
-              class="ml-2" color="error">حذف</v-btn>
-            <v-btn :loading="ordering" @click="orderProduct(product.id)" variant="outlined" append-icon="mdi-cart-check"
-              color="green" class="ml-2">طلب المنتج</v-btn>
+            <v-btn
+              :loading="deleteing"
+              @click="deleteCart(product.id)"
+              variant="outlined"
+              append-icon="mdi-delete"
+              class="ml-2"
+              color="error"
+              >حذف</v-btn
+            >
+            <v-btn
+              :loading="ordering"
+              @click="orderProduct(product.id)"
+              variant="outlined"
+              append-icon="mdi-cart-check"
+              color="green"
+              class="ml-2"
+              >طلب المنتج</v-btn
+            >
           </td>
           <td class="text-right">
-
-            <v-text-field type="number" :id="product.id" min="0" :label="product.quantity"></v-text-field>
-
+            <v-text-field
+              type="number"
+              :id="product.id"
+              min="0"
+              :label="product.quantity"
+            ></v-text-field>
           </td>
           <td class="text-right">{{ product.price }}</td>
-          <td class="text-right"><img :src="product.photos.url[0]" class="img-fluid" width="50" /></td>
+          <td class="text-right">
+            <v-img
+              class="align-center img-fluid"
+              @loadstart="startLoadingImg(product.id + 'img')"
+              @load="doneLoadingImg(product.id + 'img')"
+              :id="product.id + 'img'"
+              :lazy-src="lazyImg"
+              :src="product.photos.url[0]"
+              cover
+            >
+            </v-img>
+          </td>
           <td class="text-right">{{ product.name }}</td>
         </tr>
       </tbody>
-      <tfoot>
-      </tfoot>
+      <tfoot></tfoot>
     </v-table>
     <v-table style="margin-top: 120px">
-      <caption class="bg-yellow">تم الطلب</caption>
+      <caption class="bg-yellow">
+        تم الطلب
+      </caption>
       <thead>
         <tr>
           <th class="text-right bg-green">الكمية</th>
@@ -155,15 +188,25 @@ const orderProduct = async (productId) => {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="order in orders" :key="cart.id">
+        <tr v-for="order in orders" :key="order.id">
           <td class="text-right">{{ order.product.quantity }}</td>
           <td class="text-right">{{ order.product.price }}</td>
-          <td class="text-right"><img :src="order.product.photos.url[0]" class="img-fluid" width="50" /></td>
+          <td class="text-right">
+            <v-img
+              class="align-center img-fluid"
+              @loadstart="startLoadingImg(order.id + 'img')"
+              @load="doneLoadingImg(order.id + 'img')"
+              :id="order.id + 'img'"
+              :lazy-src="lazyImg"
+              :src="order.product.photos.url[0]"
+              cover
+            >
+            </v-img>
+          </td>
           <td class="text-right">{{ order.product.name }}</td>
         </tr>
       </tbody>
-      <tfoot>
-      </tfoot>
+      <tfoot></tfoot>
     </v-table>
   </div>
 </template>

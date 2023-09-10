@@ -1,5 +1,4 @@
 <script setup>
-
 defineProps({
   bannerText: String,
   bannerIcon: String,
@@ -14,12 +13,7 @@ defineProps({
     <v-banner-text> {{ bannerText }} </v-banner-text>
 
     <template v-slot:actions>
-      <v-btn
-        v-if="bannerTo"
-        variant="outlined"
-        :color="bannerColor"
-        :to="bannerTo"
-      >
+      <v-btn v-if="bannerTo" variant="outlined" :color="bannerColor" :to="bannerTo">
         {{ bannerBtnText }}
       </v-btn>
     </template>

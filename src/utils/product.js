@@ -13,10 +13,11 @@ export class ProductValidator extends Validator {
   constructor() {
     super()
   }
-  static isStartWithZero(value) {
-    if (value.trim().indexOf('0') === 0) {
-      return 'العمر غير صحيح'
-    }
-    return true
+  static isStartWithZero(value) {
+    if (value.trim().indexOf('0') === 0) {
+      return 'العمر غير صحيح'
+    }
+
+    return true
   }
 }

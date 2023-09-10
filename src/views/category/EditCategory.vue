@@ -25,7 +25,6 @@ onMounted(async () => {
   } catch (error) {
     handelError(error)
   }
-
 })
 
 const handelSubmit = async (event) => {
@@ -57,8 +56,11 @@ const handelSubmit = async (event) => {
     <v-form @submit.prevent="handelSubmit">
       <v-row>
         <v-col cols="12" md="4">
-          <v-text-field :rules="CategoryValidator.categoryNameRules" v-model="categoryName"
-            label="أسم القسم"></v-text-field>
+          <v-text-field
+            :rules="CategoryValidator.categoryNameRules"
+            v-model="categoryName"
+            label="أسم القسم"
+          ></v-text-field>
         </v-col>
       </v-row>
       <v-row>
@@ -66,18 +68,20 @@ const handelSubmit = async (event) => {
           <v-carousel v-if="oldCategoryPhoto" height="300">
             <v-carousel-item :src="oldCategoryPhoto" cover></v-carousel-item>
           </v-carousel>
-          <v-file-input multiple accept="image/*" label="الصور" v-model="categoryPhoto"></v-file-input>
+          <v-file-input
+            multiple
+            accept="image/*"
+            label="الصور"
+            v-model="categoryPhoto"
+          ></v-file-input>
         </v-col>
       </v-row>
-      <div style="text-align: center" class="mb-5">
-        <v-btn :loading="loading" type="submit" width="300" color="blue" class="mt-10 mx-auto rtl">تعديل</v-btn>
+      <div class="text-center mb-5">
+        <v-btn :loading="loading" type="submit" width="300" color="blue" class="mt-10 mx-auto direction"
+          >تعديل</v-btn
+        >
       </div>
     </v-form>
   </v-sheet>
 </template>
 
-<style scoped>
-.rtl {
-  direction: rtl;
-}
-</style>

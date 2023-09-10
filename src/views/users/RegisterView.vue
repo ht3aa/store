@@ -43,30 +43,43 @@ const handelSubmit = async (event) => {
     <v-form @submit.prevent="handelSubmit">
       <v-row>
         <v-col cols="12" md="4">
-          <v-text-field :rules="UserValidator.usernameRules" v-model="username" label="الأسم الرباعي"></v-text-field>
+          <v-text-field
+            :rules="UserValidator.usernameRules"
+            v-model="username"
+            label="الأسم الرباعي"
+          ></v-text-field>
         </v-col>
         <v-col cols="12" md="4">
-          <v-text-field type="number" :rules="UserValidator.phoneNumberRules" v-model="phoneNumber"
-            label="رقم الهاتف"></v-text-field>
+          <v-text-field
+            type="number"
+            :rules="UserValidator.phoneNumberRules"
+            v-model="phoneNumber"
+            label="رقم الهاتف"
+          ></v-text-field>
         </v-col>
         <v-col cols="12" md="4">
-          <v-text-field type="email" :rules="UserValidator.emailRules" v-model="email"
-            label="البريد الالكتروني"></v-text-field>
+          <v-text-field
+            type="email"
+            :rules="UserValidator.emailRules"
+            v-model="email"
+            label="البريد الالكتروني"
+          ></v-text-field>
         </v-col>
         <v-col cols="12" md="4">
-          <v-text-field type="password" :rules="UserValidator.passwordRules" v-model="password"
-            label="كلمة المرور"></v-text-field>
+          <v-text-field
+            type="password"
+            :rules="UserValidator.passwordRules"
+            v-model="password"
+            label="كلمة المرور"
+          ></v-text-field>
         </v-col>
       </v-row>
-      <div style="text-align: center">
-        <v-btn :loading="loading" type="submit" width="300" color="pink" class="mt-10 mx-auto rtl">أضافة</v-btn>
+      <div class="text-center">
+        <v-btn :loading="loading" type="submit" width="300" color="pink" class="mt-10 mx-auto direction"
+          >أضافة</v-btn
+        >
       </div>
     </v-form>
   </v-sheet>
 </template>
 
-<style scoped>
-.rtl {
-  direction: rtl;
-}
-</style>
