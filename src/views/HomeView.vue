@@ -1,14 +1,12 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue'
 import { categoryReq } from '@/config/axios'
+import LazyCardImage from '@/components/LazyCardImage.vue'
 import {
   arabicSortBy,
-  startLoadingImg,
-  doneLoadingImg,
   handelError,
   reqIsSuccessful
 } from '@/utils/helpers'
-import { lazyImg } from '@/utils/global'
 
 const categories = ref([])
 const search = ref(null)
@@ -56,19 +54,9 @@ watch(search, filter)
             :to="{ name: 'categoryDetails', params: { id: category.id } }"
           >
             <v-card>
-              <v-img
-                class="align-end"
-                @loadstart="startLoadingImg(category.id + 'img')"
-                @load="doneLoadingImg(category.id + 'img')"
-                :id="category.id + 'img'"
-                :lazy-src="lazyImg"
-                :src="category.url"
-                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                height="200px"
-                cover
-              >
+              <LazyCardImage :ImgSrc="category.url">
                 <v-card-title class="text-white text-right" v-text="category.name"></v-card-title>
-              </v-img>
+              </LazyCardImage>
             </v-card>
           </router-link>
         </v-col>

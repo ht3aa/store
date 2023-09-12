@@ -3,9 +3,8 @@ import { useRoute, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { cartReq, orderReq } from '@/config/axios'
 import { useAlertStore } from '@/stores/alert'
-import { reqIsSuccessful, startLoadingImg, doneLoadingImg, handelError } from '@/utils/helpers'
-import { lazyImg } from '@/utils/global'
-import { ProductValidator } from '@/utils/product'
+import { reqIsSuccessful, handelError } from '@/utils/helpers'
+import LazyCardImage from '@/components/LazyCardImage.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -159,16 +158,7 @@ const orderProduct = async (productId) => {
           </td>
           <td class="text-right">{{ product.price }}</td>
           <td class="text-right">
-            <v-img
-              class="align-center img-fluid"
-              @loadstart="startLoadingImg(product.id + 'img')"
-              @load="doneLoadingImg(product.id + 'img')"
-              :id="product.id + 'img'"
-              :lazy-src="lazyImg"
-              :src="product.photos.url[0]"
-              cover
-            >
-            </v-img>
+            <LazyCardImage :ImgSrc="product.photos.url[0]" />
           </td>
           <td class="text-right">{{ product.name }}</td>
         </tr>
@@ -192,16 +182,7 @@ const orderProduct = async (productId) => {
           <td class="text-right">{{ order.product.quantity }}</td>
           <td class="text-right">{{ order.product.price }}</td>
           <td class="text-right">
-            <v-img
-              class="align-center img-fluid"
-              @loadstart="startLoadingImg(order.id + 'img')"
-              @load="doneLoadingImg(order.id + 'img')"
-              :id="order.id + 'img'"
-              :lazy-src="lazyImg"
-              :src="order.product.photos.url[0]"
-              cover
-            >
-            </v-img>
+            <LazyCardImage :ImgSrc="order.product.photos.url[0]" />
           </td>
           <td class="text-right">{{ order.product.name }}</td>
         </tr>

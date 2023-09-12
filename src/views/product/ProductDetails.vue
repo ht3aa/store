@@ -64,7 +64,7 @@ const addToCart = async () => {
   <div v-if="loading" class="loaderContainer">
     <span class="loader"></span>
   </div>
-  <v-container class="my-5 direction">
+  <v-container style="direction: rtl" class="my-5">
     <v-row>
       <v-col cols="12" md="5">
         <v-carousel v-if="photos" cycle>

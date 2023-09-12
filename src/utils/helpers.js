@@ -16,12 +16,14 @@ export class Validator {
 
 export const doneLoadingImg = (id) => {
   const img = document.getElementById(id)
-  img.classList.remove('loadingImg')
+
+  // img.classList.remove('loadingImg')
 }
 
 export const startLoadingImg = (id) => {
   const img = document.getElementById(id)
   img.classList.add('loadingImg')
+  console.log(img.classList)
 }
 
 /**

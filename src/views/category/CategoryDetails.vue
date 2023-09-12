@@ -2,10 +2,9 @@
 import { useRoute, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { categoryReq, cartReq } from '@/config/axios'
-import { CategoryValidator } from '@/utils/category'
 import { useAlertStore } from '@/stores/alert'
-import { reqIsSuccessful, startLoadingImg, doneLoadingImg, handelError } from '@/utils/helpers'
-import { lazyImg } from '@/utils/global'
+import { reqIsSuccessful, handelError } from '@/utils/helpers'
+import LazyCardImage from '@/components/LazyCardImage.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -62,18 +61,7 @@ const addToCart = async (productId) => {
       <v-row class="direction">
         <v-col cols="12" md="4" v-for="product in products" :key="product.id">
           <v-card class="mx-auto text-right">
-            <v-img
-              class="align-end text-white"
-              @loadstart="startLoadingImg(product.id + 'img')"
-              @load="doneLoadingImg(product.id + 'img')"
-              :id="product.id + 'img'"
-              :lazy-src="lazyImg"
-              :src="product.photos.url[0]"
-              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-              height="200px"
-              cover
-            >
-            </v-img>
+              <LazyCardImage :ImgSrc="product.photos.url[0]" />
             <v-card-title>{{ product.name }}</v-card-title>
             <v-card-subtitle class="pt-2"> {{ product.price }} دينار عراقي </v-card-subtitle>
 
